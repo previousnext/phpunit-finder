@@ -38,13 +38,18 @@ class FinderCommand extends Command {
     if (empty($testSuites)) {
       $testSuites = $config->getTestSuiteNames();
     }
+    $testFilenames = [];
     foreach ($testSuites as $suiteName) {
       $suite = $config->getTestSuiteConfiguration($suiteName);
       foreach (new \RecursiveIteratorIterator($suite->getIterator()) as $test) {
         if ($test instanceof TestCase) {
-          $output->writeln((new ReflectionClass($test))->getFileName());
+          $testFilenames[] = ((new ReflectionClass($test))->getFileName());
         }
       }
+    }
+    $testFilenames = array_unique($testFilenames);
+    foreach ($testFilenames as $testFilename) {
+      $output->writeln($testFilename);
     }
   }
 

@@ -15,7 +15,7 @@ use Symfony\Component\Console\Application;
 
 
 $application = new Application(APP_NAME, VERSION);
-$command = new FinderCommand('finder');
+$command = new FinderCommand('phpunit-finder');
 $application->add($command);
 $application->setDefaultCommand($command->getName(), TRUE);
 $application->run();
