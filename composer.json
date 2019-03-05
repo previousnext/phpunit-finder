@@ -1,0 +1,35 @@
+{
+  "name": "previousnext/phpunit-finder",
+  "description": "PHP lib for finding and outputting all tests from a phpunit.xml config file.",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Kim Pepper",
+      "email": "kim@previousnext.com.au"
+    },
+    {
+      "name": "Lee Rowlands",
+      "email": "lee.rowlands@previousnext.com.au"
+    }
+  ],
+  "require": {
+    "php": "^7.1",
+    "phpunit/phpunit": "^6.5"
+  },
+  "require-dev": {
+    "drupal/coder": ">=8.2.12"
+  },
+  "autoload": {
+    "psr-4": {"PhpUnitFinder\\": "src/"}
+  },
+  "autoload-dev": {
+    "psr-4": {"PhpUnitFinder\\Tests\\": "tests/"}
+  },
+  "config": {
+    "bin-dir": "bin/",
+    "preferred-install": {
+      "*": "dist"
+    },
+    "sort-packages": true
+  }
+}
