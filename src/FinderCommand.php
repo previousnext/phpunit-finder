@@ -31,7 +31,7 @@ class FinderCommand extends Command {
   protected function execute(InputInterface $input, OutputInterface $output) {
     $configFile = $input->getOption('config-file');
     $bootstrap = $input->getOption('bootstrap-file');
-    include_once($bootstrap);
+    include_once $bootstrap;
     $testSuites = $input->getArgument('test-suite');
 
     $config = Configuration::getInstance($configFile);
