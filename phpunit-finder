@@ -1,0 +1,21 @@
+#!/usr/bin/env php
+<?php
+/**
+ * @file
+ * Console application for PHPUnit Finder.
+ */
+
+require __DIR__ . '/vendor/autoload.php';
+
+const APP_NAME = 'PHPUnit Finder';
+const VERSION = '0.0.1';
+
+use PhpUnitFinder\FinderCommand;
+use Symfony\Component\Console\Application;
+
+
+$application = new Application(APP_NAME, VERSION);
+$command = new FinderCommand('finder');
+$application->add($command);
+$application->setDefaultCommand($command->getName(), TRUE);
+$application->run();
