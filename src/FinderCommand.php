@@ -21,7 +21,8 @@ class FinderCommand extends Command {
    */
   protected function configure() {
     $this->addOption('config-file', 'c', InputOption::VALUE_OPTIONAL, "The phpunit.xml config file to use.", getcwd() . '/phpunit.xml');
-    $this->addArgument('test-suite', InputArgument::IS_ARRAY, "The test suites to scan.", ['unit', 'functional']);
+    $this->addOption('bootstrap-file', 'b', InputOption::VALUE_OPTIONAL, "The tests bootstrap file.", getcwd() . '/tests/bootstrap.php');
+    $this->addArgument('test-suite', InputArgument::IS_ARRAY, "The test suites to scan.");
   }
 
   /**
@@ -29,10 +30,17 @@ class FinderCommand extends Command {
    */
   protected function execute(InputInterface $input, OutputInterface $output) {
     $configFile = $input->getOption('config-file');
+    $bootstrap = $input->getOption('bootstrap-file');
+    include_once($bootstrap);
     $testSuites = $input->getArgument('test-suite');
+
     $config = Configuration::getInstance($configFile);
+    if (empty($testSuites)) {
+      $testSuites = $config->getTestSuiteNames();
+    }
     foreach ($testSuites as $suiteName) {
       $suite = $config->getTestSuiteConfiguration($suiteName);
+      $output->writeln($suiteName);
       foreach (new \RecursiveIteratorIterator($suite->getIterator()) as $test) {
         if ($test instanceof TestCase) {
           $output->writeln((new ReflectionClass($test))->getFileName());
