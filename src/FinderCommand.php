@@ -40,7 +40,6 @@ class FinderCommand extends Command {
     }
     foreach ($testSuites as $suiteName) {
       $suite = $config->getTestSuiteConfiguration($suiteName);
-      $output->writeln($suiteName);
       foreach (new \RecursiveIteratorIterator($suite->getIterator()) as $test) {
         if ($test instanceof TestCase) {
           $output->writeln((new ReflectionClass($test))->getFileName());
