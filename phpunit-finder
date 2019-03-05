@@ -5,7 +5,7 @@
  * Console application for PHPUnit Finder.
  */
 
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/../../autoload.php';
 
 const APP_NAME = 'PHPUnit Finder';
 const VERSION = '0.0.1';
