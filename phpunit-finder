@@ -8,7 +8,7 @@
 require __DIR__ . '/../../autoload.php';
 
 const APP_NAME = 'PHPUnit Finder';
-const VERSION = '0.0.1';
+const VERSION = '2.x-dev';
 
 use PhpUnitFinder\FinderCommand;
 use Symfony\Component\Console\Application;
