@@ -9,7 +9,7 @@ workflows:
 
 defaults: &defaults
   docker:
-    - image: previousnext/php-apache:7.2-3.x-dev
+    - image: previousnext/php-apache:7.3-3.x-dev
   working_directory: /data
   steps:
     - checkout
