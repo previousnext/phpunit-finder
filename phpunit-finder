@@ -5,7 +5,19 @@
  * Console application for PHPUnit Finder.
  */
 
-require __DIR__ . '/../../autoload.php';
+$autoload = [
+  __DIR__ . '/vendor/autoload.php',
+  dirname(__DIR__, 1) . '/vendor/autoload.php',
+  dirname(__DIR__, 2) . '/vendor/autoload.php',
+  dirname(__DIR__, 1) . '/autoload.php',
+  dirname(__DIR__, 2) . '/autoload.php',
+];
+foreach ($autoload as $file) {
+  if (file_exists($file)) {
+    require $file;
+    break;
+  }
+}
 
 const APP_NAME = 'PHPUnit Finder';
 const VERSION = '2.x-dev';
