@@ -20,7 +20,7 @@ foreach ($autoload as $file) {
 }
 
 const APP_NAME = 'PHPUnit Finder';
-const VERSION = '2.x-dev';
+const VERSION = '1.x-dev';
 
 use PhpUnitFinder\FinderCommand;
 use Symfony\Component\Console\Application;
