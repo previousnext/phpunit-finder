@@ -4,7 +4,6 @@ namespace PhpUnitFinder;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Util\Configuration;
-use ReflectionClass;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -43,7 +42,7 @@ class FinderCommand extends Command {
       $suite = $config->getTestSuiteConfiguration($suiteName);
       foreach (new \RecursiveIteratorIterator($suite->getIterator()) as $test) {
         if ($test instanceof TestCase) {
-          $testFilenames[] = ((new ReflectionClass($test))->getFileName());
+          $testFilenames[] = ((new \ReflectionClass($test))->getFileName());
         }
       }
     }
