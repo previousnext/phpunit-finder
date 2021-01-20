@@ -1,50 +1,52 @@
-version: 2
+version: 2.1
+
+executors:
+  php74:
+    docker:
+      - image: skpr/php-cli:7.4-1.x
+  php80:
+    docker:
+      - image: skpr/php-cli:8.0-1.x
 
 workflows:
-  version: 2
   build:
     jobs:
-      - build_lowest
-      - build_highest
-
-defaults: &defaults
-  docker:
-    - image: previousnext/php-apache:7.3-3.x-dev
-  working_directory: /data
-  steps:
-    - checkout
-    - restore_cache:
-        keys:
-          - deps-{{ arch }}
-    - run:
-        name: "Install Dependencies"
-        command: composer update --prefer-dist --no-progress --no-suggest --no-interaction ${PREFER_LOWEST}
-    - save_cache:
-        key: deps-{{ arch }}
-        paths:
-          - vendor
-    - run:
-        name: "Lint"
-        command: ./bin/phpcs
-    - run:
-        name: "Test"
-        command: |
-          mkdir -p ~/phpunit
-          ./bin/phpunit --testsuite unit --log-junit ~/phpunit/phpunit.xml
-    - store_test_results:
-        path: ~/phpunit
-    - store_artifacts:
-        path: ~/phpunit
+      - build:
+          matrix:
+            parameters:
+              php: ["php74", "php80"]
+              composer-opts: ["", "--prefer-lowest"]
 
 jobs:
-  build_lowest:
-    <<: *defaults
-    docker:
-      - image: previousnext/php-apache:7.1-3.x-dev
-
-    environment:
-      - PREFER_LOWEST: --prefer-lowest
-  build_highest:
-    <<: *defaults
-    environment:
-      - PREFER_LOWEST: ''
+  build:
+    parameters:
+      php:
+        type: executor
+      composer-opts:
+        type: string
+    executor: << parameters.php >>
+    working_directory: /data
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - deps-{{ arch }}
+      - run:
+          name: "Install Dependencies"
+          command: composer2 update --prefer-dist --no-progress --no-suggest --no-interaction << parameters.composer-opts >>
+      - save_cache:
+          key: deps-{{ arch }}
+          paths:
+            - vendor
+      - run:
+          name: "Lint"
+          command: ./bin/phpcs --runtime-set testVersion 8.0-
+      - run:
+          name: "Test"
+          command: |
+            mkdir -p ~/phpunit
+            ./bin/phpunit --testsuite unit --log-junit ~/phpunit/phpunit.xml
+      - store_test_results:
+          path: ~/phpunit
+      - store_artifacts:
+          path: ~/phpunit

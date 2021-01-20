@@ -1,26 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ruleset name="phpunit-finder">
-  <description>PHP CodeSniffer configuration for PHPUnit Finder</description>
-  <!-- folders to scan -->
+<ruleset name="pnx-project">
+  <description>PHP Codesniffer configuration.</description>
   <file>./src</file>
-  <file>./tests</file>
-  <!-- extensions to scan -->
+  <exclude-pattern>./tests/bootstrap.php</exclude-pattern>
   <arg name="extensions" value="php"/>
-  <!-- additional arguments -->
   <arg name="report" value="full"/>
-  <!-- inherit from coder -->
-  <rule ref="./vendor/drupal/coder/coder_sniffer/Drupal"/>
-  <!-- Additional detailed sniff configuration -->
-  <!-- You can determine sniff names by running with -s flag -->
-  <!-- Example 1 - ignore Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps
-    <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
-      <severity>0</severity>
-    </rule>
-  // End example 1 -->
-  <!-- Example 2 - ignore rule for specific files
-    <rule ref="Drupal.NamingConventions.ValidVariableName.LowerCamelName">
-      <exclude-pattern>OfferNormalizerTrait.php</exclude-pattern>
-      <exclude-pattern>TimeOfUseValidationTrait.php</exclude-pattern>
-    </rule>
-  // End example 2 -->
+  <arg name="colors"/>
+  <arg value="sp"/>
+  <rule ref="Drupal">
+    <!-- ignore for now -->
+    <exclude name="Drupal.Classes.UseGlobalClass.RedundantUseStatement" />
+  </rule>
+  <rule ref="PHPCompatibility"/>
+  <config name="testVersion" value="7.3-"/>
 </ruleset>
