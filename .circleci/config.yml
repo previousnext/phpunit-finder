@@ -40,7 +40,7 @@ jobs:
             - vendor
       - run:
           name: "Lint"
-          command: ./bin/phpcs
+          command: ./bin/phpcs --runtime-set testVersion 8.0-
       - run:
           name: "Test"
           command: |

@@ -7,6 +7,10 @@
   <arg name="report" value="full"/>
   <arg name="colors"/>
   <arg value="sp"/>
-  <rule ref="Drupal"/>
+  <rule ref="Drupal">
+    <!-- ignore for now -->
+    <exclude name="Drupal.Classes.UseGlobalClass.RedundantUseStatement" />
+  </rule>
   <rule ref="PHPCompatibility"/>
+  <config name="testVersion" value="7.3-"/>
 </ruleset>
