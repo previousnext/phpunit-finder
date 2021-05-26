@@ -27,7 +27,7 @@ class FinderCommand extends Command {
   /**
    * {@inheritdoc}
    */
-  protected function execute(InputInterface $input, OutputInterface $output) {
+  protected function execute(InputInterface $input, OutputInterface $output): int {
     $configFile = $input->getOption('config-file');
     $bootstrap = $input->getOption('bootstrap-file');
     include_once $bootstrap;
@@ -50,6 +50,7 @@ class FinderCommand extends Command {
     foreach ($testFilenames as $testFilename) {
       $output->writeln($testFilename);
     }
+    return 0;
   }
 
 }
