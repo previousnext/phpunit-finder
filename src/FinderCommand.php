@@ -42,7 +42,7 @@ class FinderCommand extends Command {
       $phpunit_9 = TRUE;
     }
     else {
-      $config = PHPUnit\Util\Configuration::getInstance($configFile);
+      $config = \PHPUnit\Util\Configuration::getInstance($configFile);
     }
     if (empty($testSuites)) {
       $testSuites = $phpunit_9 ? $config->testSuite() : $config->getTestSuiteNames();
