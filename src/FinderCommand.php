@@ -53,7 +53,7 @@ class FinderCommand extends Command {
         return $suite->name();
       }, iterator_to_array($testSuites)) as $name) {
         try {
-          foreach ((new TestSuiteMapper)->map($testSuites, $name) as $test) {
+          foreach ((new TestSuiteMapper())->map($testSuites, $name) as $test) {
             if ($test instanceof TestCase) {
               $testFilenames[] = ((new \ReflectionClass($test))->getFileName());
             }
