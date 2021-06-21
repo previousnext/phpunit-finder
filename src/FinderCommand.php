@@ -3,10 +3,7 @@
 namespace PhpUnitFinder;
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\TestSuite;
-use PHPUnit\TextUI\TestDirectoryNotFoundException;
 use PHPUnit\TextUI\TestSuiteMapper;
-use PHPUnit\TextUI\XmlConfiguration\Configuration;
 use PHPUnit\TextUI\XmlConfiguration\Loader;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
