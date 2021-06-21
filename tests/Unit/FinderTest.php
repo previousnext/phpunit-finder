@@ -7,7 +7,7 @@ use PhpUnitFinder\FinderCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
- * A stub test.
+ * A test of the command functionality
  */
 class FinderTest extends TestCase {
 
@@ -16,8 +16,18 @@ class FinderTest extends TestCase {
    */
   public function testDiscovery() {
     $command = new CommandTester(new FinderCommand());
-    $command->execute([]);
-    $this->assertNotNull($command->getDisplay());
+    $command->execute([
+      '--config-file' => dirname(__DIR__) . '/fixtures/phpunit.xml'
+    ]);
+    $output = $command->getDisplay();
+    $this->assertNotNull($output);
+    if (method_exists($this, 'assertStringContainsString')) {
+      $this->assertStringContainsString('TestUnitTest.php', $output);
+      $this->assertStringContainsString('TestFunctionalTest.php', $output);
+      return;
+    }
+    $this->assertContains('TestUnitTest.php', $output);
+    $this->assertContains('TestFunctionalTest.php', $output);
   }
 
 }
