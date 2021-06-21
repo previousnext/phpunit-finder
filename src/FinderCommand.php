@@ -3,7 +3,8 @@
 namespace PhpUnitFinder;
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Util\Configuration;
+use PHPUnit\TextUI\TestSuiteMapper;
+use PHPUnit\TextUI\XmlConfiguration\Loader;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,19 +34,20 @@ class FinderCommand extends Command {
     include_once $bootstrap;
     $testSuites = $input->getArgument('test-suite');
 
-    $config = Configuration::getInstance($configFile);
-    if (empty($testSuites)) {
-      $testSuites = $config->getTestSuiteNames();
-    }
-    $testFilenames = [];
-    foreach ($testSuites as $suiteName) {
-      $suite = $config->getTestSuiteConfiguration($suiteName);
-      foreach (new \RecursiveIteratorIterator($suite->getIterator()) as $test) {
+    $config = (new Loader())->load($configFile);
+
+    foreach ($config->testSuite() as $suite) {
+      if ($testSuites && !in_array($suite->name(), $testSuites, TRUE)) {
+        continue;
+      }
+      $testSuite = (new TestSuiteMapper)->map($config->testSuite(), $suite->name());
+      foreach (new \RecursiveIteratorIterator($testSuite) as $test) {
         if ($test instanceof TestCase) {
           $testFilenames[] = ((new \ReflectionClass($test))->getFileName());
         }
       }
     }
+
     $testFilenames = array_unique($testFilenames);
     foreach ($testFilenames as $testFilename) {
       $output->writeln($testFilename);
