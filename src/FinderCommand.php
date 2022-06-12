@@ -33,6 +33,7 @@ class FinderCommand extends Command {
     $bootstrap = $input->getOption('bootstrap-file');
     include_once $bootstrap;
     $testSuites = $input->getArgument('test-suite');
+    $testFilenames = [];
 
     $config = (new Loader())->load($configFile);
 
