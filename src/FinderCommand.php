@@ -53,6 +53,8 @@ class FinderCommand extends Command {
     foreach ($testFilenames as $testFilename) {
       $output->writeln($testFilename);
     }
+
+    return 0;
   }
 
 }
