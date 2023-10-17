@@ -1,6 +1,7 @@
 {
   "name": "previousnext/phpunit-finder",
   "description": "PHP lib for finding and outputting all tests from a phpunit.xml config file.",
+  "keywords": ["testing"],
   "license": "GPL-2.0-or-later",
   "authors": [
     {
