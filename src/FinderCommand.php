@@ -3,8 +3,8 @@
 namespace PhpUnitFinder;
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit\TextUI\XmlConfiguration\TestSuiteMapper;
 use PHPUnit\TextUI\XmlConfiguration\Loader;
+use PHPUnit\TextUI\XmlConfiguration\TestSuiteMapper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
