@@ -1,12 +1,9 @@
 version: 2.1
 
 executors:
-  php74:
+  php83:
     docker:
-      - image: skpr/php-cli:7.4-1.x
-  php80:
-    docker:
-      - image: skpr/php-cli:8.0-1.x
+      - image: skpr/php-cli:8.3-v2-latest
 
 workflows:
   build:
@@ -14,7 +11,7 @@ workflows:
       - build:
           matrix:
             parameters:
-              php: ["php74", "php80"]
+              php: ["php83"]
               composer-opts: ["", "--prefer-lowest"]
 
 jobs:
@@ -33,7 +30,7 @@ jobs:
             - deps-{{ arch }}
       - run:
           name: "Install Dependencies"
-          command: composer2 update --prefer-dist --no-progress --no-suggest --no-interaction << parameters.composer-opts >>
+          command: composer update --prefer-dist --no-progress --no-interaction << parameters.composer-opts >>
       - save_cache:
           key: deps-{{ arch }}
           paths:
@@ -45,7 +42,7 @@ jobs:
           name: "Test"
           command: |
             mkdir -p ~/phpunit
-            ./bin/phpunit --testsuite unit --log-junit ~/phpunit/phpunit.xml
+            ./bin/phpunit --log-junit ~/phpunit/phpunit.xml
       - store_test_results:
           path: ~/phpunit
       - store_artifacts:
