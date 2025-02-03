@@ -1,6 +1,7 @@
 {
   "name": "previousnext/phpunit-finder",
   "description": "PHP lib for finding and outputting all tests from a phpunit.xml config file.",
+  "keywords": ["testing"],
   "license": "GPL-2.0-or-later",
   "authors": [
     {
@@ -15,7 +16,7 @@
   "require": {
     "php": "^8.1",
     "phpunit/phpunit": "^10.5",
-    "symfony/console": "^3.4||^4.4||^5||^6"
+    "symfony/console": "^3.4||^4.4||^5||^6||^7"
   },
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
