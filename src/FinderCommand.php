@@ -4,6 +4,8 @@ namespace PhpUnitFinder;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Runner\Version;
+use PHPUnit\TextUI\CliArguments\Builder;
+use PHPUnit\TextUI\Configuration\Registry;
 use PHPUnit\TextUI\XmlConfiguration\Loader;
 use PHPUnit\TextUI\XmlConfiguration\TestSuiteMapper;
 use Symfony\Component\Console\Command\Command;
@@ -37,6 +39,13 @@ class FinderCommand extends Command {
     $testFilenames = [];
 
     $config = (new Loader())->load($configFile);
+
+    if (str_starts_with(Version::id(), '10')) {
+      Registry::init(
+        (new Builder)->fromParameters([]),
+        $config,
+      );
+    }
 
     foreach ($config->testSuite() as $suite) {
       if ($testSuites && !in_array($suite->name(), $testSuites, TRUE)) {
