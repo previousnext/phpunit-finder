@@ -3,8 +3,11 @@
 namespace PhpUnitFinder;
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit\TextUI\TestSuiteMapper;
+use PHPUnit\Runner\Version;
+use PHPUnit\TextUI\CliArguments\Builder;
+use PHPUnit\TextUI\Configuration\Registry;
 use PHPUnit\TextUI\XmlConfiguration\Loader;
+use PHPUnit\TextUI\XmlConfiguration\TestSuiteMapper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,7 +31,7 @@ class FinderCommand extends Command {
   /**
    * {@inheritdoc}
    */
-  protected function execute(InputInterface $input, OutputInterface $output) {
+  protected function execute(InputInterface $input, OutputInterface $output): int {
     $configFile = $input->getOption('config-file');
     $bootstrap = $input->getOption('bootstrap-file');
     include_once $bootstrap;
@@ -37,11 +40,25 @@ class FinderCommand extends Command {
 
     $config = (new Loader())->load($configFile);
 
+    if (str_starts_with(Version::id(), '10')) {
+      Registry::init(
+        (new Builder)->fromParameters([]),
+        $config,
+      );
+    }
+
     foreach ($config->testSuite() as $suite) {
       if ($testSuites && !in_array($suite->name(), $testSuites, TRUE)) {
         continue;
       }
-      $testSuite = (new TestSuiteMapper)->map($config->testSuite(), $suite->name());
+      // PHPUnit 9.4 and earlier.
+      if (str_starts_with(Version::id(), '9')) {
+        $testSuite = (new TestSuiteMapper())->map($config->testSuite(), $suite->name());
+      }
+      // PHPUnit 10.0 and later.
+      else {
+        $testSuite = (new TestSuiteMapper())->map($config->filename(), $config->testSuite(), $suite->name(), '');
+      }
       foreach (new \RecursiveIteratorIterator($testSuite) as $test) {
         if ($test instanceof TestCase) {
           $testFilenames[] = ((new \ReflectionClass($test))->getFileName());
