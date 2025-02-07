@@ -40,25 +40,16 @@ class FinderCommand extends Command {
 
     $config = (new Loader())->load($configFile);
 
-    if (str_starts_with(Version::id(), '10')) {
-      Registry::init(
-        (new Builder)->fromParameters([]),
-        $config,
-      );
-    }
+    Registry::init(
+      (new Builder)->fromParameters([]),
+      $config,
+    );
 
     foreach ($config->testSuite() as $suite) {
       if ($testSuites && !in_array($suite->name(), $testSuites, TRUE)) {
         continue;
       }
-      // PHPUnit 9.4 and earlier.
-      if (str_starts_with(Version::id(), '9')) {
-        $testSuite = (new TestSuiteMapper())->map($config->testSuite(), $suite->name());
-      }
-      // PHPUnit 10.0 and later.
-      else {
-        $testSuite = (new TestSuiteMapper())->map($config->filename(), $config->testSuite(), $suite->name(), '');
-      }
+      $testSuite = (new TestSuiteMapper())->map($config->filename(), $config->testSuite(), $suite->name(), '');
       foreach (new \RecursiveIteratorIterator($testSuite) as $test) {
         if ($test instanceof TestCase) {
           $testFilenames[] = ((new \ReflectionClass($test))->getFileName());
