@@ -3,8 +3,10 @@
 namespace PhpUnitFinder;
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit\TextUI\TestSuiteMapper;
+use PHPUnit\TextUI\CliArguments\Builder;
+use PHPUnit\TextUI\Configuration\Registry;
 use PHPUnit\TextUI\XmlConfiguration\Loader;
+use PHPUnit\TextUI\XmlConfiguration\TestSuiteMapper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,7 +30,7 @@ class FinderCommand extends Command {
   /**
    * {@inheritdoc}
    */
-  protected function execute(InputInterface $input, OutputInterface $output) {
+  protected function execute(InputInterface $input, OutputInterface $output): int {
     $configFile = $input->getOption('config-file');
     $bootstrap = $input->getOption('bootstrap-file');
     include_once $bootstrap;
@@ -37,11 +39,16 @@ class FinderCommand extends Command {
 
     $config = (new Loader())->load($configFile);
 
+    Registry::init(
+      (new Builder)->fromParameters([]),
+      $config,
+    );
+
     foreach ($config->testSuite() as $suite) {
       if ($testSuites && !in_array($suite->name(), $testSuites, TRUE)) {
         continue;
       }
-      $testSuite = (new TestSuiteMapper)->map($config->testSuite(), $suite->name());
+      $testSuite = (new TestSuiteMapper())->map($config->filename(), $config->testSuite(), $suite->name(), '');
       foreach (new \RecursiveIteratorIterator($testSuite) as $test) {
         if ($test instanceof TestCase) {
           $testFilenames[] = ((new \ReflectionClass($test))->getFileName());

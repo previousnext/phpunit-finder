@@ -4,9 +4,6 @@
  * @file
  * Boostrap for PHPUnit.
  */
-
-assert_options(ASSERT_ACTIVE, FALSE);
-
 $autoloader = __DIR__ . '/../vendor/autoload.php';
 $loader = require $autoloader;
 
