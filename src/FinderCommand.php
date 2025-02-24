@@ -3,7 +3,6 @@
 namespace PhpUnitFinder;
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Runner\Version;
 use PHPUnit\TextUI\CliArguments\Builder;
 use PHPUnit\TextUI\Configuration\Registry;
 use PHPUnit\TextUI\XmlConfiguration\Loader;
