@@ -12,7 +12,7 @@ class TestUnitTest extends TestCase {
   /**
    * Tests something.
    */
-  public function testSomething() {
+  public function testSomething(): void {
     $this->addToAssertionCount(1);
   }
 
