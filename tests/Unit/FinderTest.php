@@ -14,20 +14,14 @@ class FinderTest extends TestCase {
   /**
    * A stub test.
    */
-  public function testDiscovery() {
+  public function testDiscovery(): void {
     $command = new CommandTester(new FinderCommand());
     $command->execute([
       '--config-file' => dirname(__DIR__) . '/fixtures/phpunit.xml'
     ]);
     $output = $command->getDisplay();
-    $this->assertNotNull($output);
-    if (method_exists($this, 'assertStringContainsString')) {
-      $this->assertStringContainsString('TestUnitTest.php', $output);
-      $this->assertStringContainsString('TestFunctionalTest.php', $output);
-      return;
-    }
-    $this->assertContains('TestUnitTest.php', $output);
-    $this->assertContains('TestFunctionalTest.php', $output);
+    $this->assertStringContainsString('TestUnitTest.php', $output);
+    $this->assertStringContainsString('TestFunctionalTest.php', $output);
   }
 
 }
